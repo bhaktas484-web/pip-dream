@@ -11,6 +11,45 @@
     font-family: 'Fraunces', Georgia, serif;
     letter-spacing: -0.02em;
   }
+
+  /* Visible accessible focus rings */
+  button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible {
+    outline: 2px solid #a34063;
+    outline-offset: 2px;
+  }
+  .dark button:focus-visible, .dark a:focus-visible, .dark input:focus-visible, .dark textarea:focus-visible {
+    outline: 2px solid #f7c948;
+    outline-offset: 2px;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Falling stardust animation for mini-game */
+@keyframes fallDown {
+  0% {
+    transform: translateY(-20px) scale(0.8);
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+    transform: translateY(20px) scale(1);
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(340px) scale(0.9);
+    opacity: 0;
+  }
 }
 
 /* Early-web subtle dotted paper grid */
@@ -24,7 +63,7 @@
   background-size: 24px 24px;
 }
 
-/* Vintage CRT Scanlines (optional toggle or subtle overlay) */
+/* Vintage CRT Scanlines */
 .scanlines::before {
   content: " ";
   display: block;

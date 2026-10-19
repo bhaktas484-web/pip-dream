@@ -1,26 +1,42 @@
 import React, { useState, useEffect, useRef } from 'react';
 import confetti from 'canvas-confetti';
-import { Sparkles, Moon, Star, Heart, Award, Volume2 } from 'lucide-react';
+import { Sparkles, Moon, Star, Heart, Award, Volume2, MessageCircle, Gamepad2 } from 'lucide-react';
 import { soundEngine } from '../utils/audio';
 
-export function HeroSection({ onOpenGrowthChart }) {
+export function HeroSection({ onOpenGrowthChart, onOpenChat, onOpenGame }) {
   const avatarRef = useRef(null);
   const [pupilPos, setPupilPos] = useState({ x: 0, y: 0 });
   const [headTilt, setHeadTilt] = useState(0);
   const [clickCount, setClickCount] = useState(0);
   const [easterEggActive, setEasterEggActive] = useState(false);
   const [yawnActive, setYawnActive] = useState(false);
+  const [returningGreeting, setReturningGreeting] = useState('');
 
-  // Mouse tracking for Pip's glowing amber pupils & subtle head tilt
+  // Returning visitor check
   useEffect(() => {
-    const handlePointerMove = (e) => {
+    try {
+      const lastVisit = localStorage.getItem('pip_last_visit_timestamp');
+      const now = new Date();
+      if (lastVisit) {
+        setReturningGreeting("Welcome back to Midnight Nursery! Pip kept your nightlight warm since your last visit. ✨");
+      } else {
+        localStorage.setItem('pip_last_visit_timestamp', now.toISOString());
+      }
+    } catch {
+      // ignore
+    }
+  }, []);
+
+  // Mouse & Touch tracking for Pip's glowing amber pupils & head tilt (Mobile Touch Fallback)
+  useEffect(() => {
+    const updateTarget = (clientX, clientY) => {
       if (!avatarRef.current) return;
       const rect = avatarRef.current.getBoundingClientRect();
       const centerX = rect.left + rect.width / 2;
       const centerY = rect.top + rect.height / 2;
 
-      const deltaX = (e.clientX - centerX) / (window.innerWidth / 2);
-      const deltaY = (e.clientY - centerY) / (window.innerHeight / 2);
+      const deltaX = (clientX - centerX) / (window.innerWidth / 2);
+      const deltaY = (clientY - centerY) / (window.innerHeight / 2);
 
       // Clamp movement within eye socket boundaries
       const clampX = Math.max(-6, Math.min(6, deltaX * 6));
@@ -31,8 +47,23 @@ export function HeroSection({ onOpenGrowthChart }) {
       setHeadTilt(clampTilt);
     };
 
+    const handlePointerMove = (e) => {
+      updateTarget(e.clientX, e.clientY);
+    };
+
+    const handleTouchMove = (e) => {
+      if (e.touches && e.touches[0]) {
+        updateTarget(e.touches[0].clientX, e.touches[0].clientY);
+      }
+    };
+
     window.addEventListener('pointermove', handlePointerMove, { passive: true });
-    return () => window.removeEventListener('pointermove', handlePointerMove);
+    window.addEventListener('touchmove', handleTouchMove, { passive: true });
+
+    return () => {
+      window.removeEventListener('pointermove', handlePointerMove);
+      window.removeEventListener('touchmove', handleTouchMove);
+    };
   }, []);
 
   // Easter Egg trigger: Tap Pip's bedtime nightcap 5 times!
@@ -70,6 +101,13 @@ export function HeroSection({ onOpenGrowthChart }) {
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6">
         
+        {/* Returning Visitor Notification */}
+        {returningGreeting && (
+          <div className="mb-6 p-3 rounded-2xl bg-amberStar/15 border border-amberStar/40 text-stone-900 dark:text-amberStar text-xs sm:text-sm font-serif italic text-center shadow-sm flex items-center justify-center gap-2">
+            <span>🌙</span> {returningGreeting}
+          </div>
+        )}
+
         {/* Top Edition Eyebrow */}
         <div className="flex flex-wrap items-center justify-center gap-2 mb-6">
           <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-berry/10 dark:bg-amberStar/15 text-berry dark:text-amberStar border border-berry/20 dark:border-amberStar/30">
@@ -103,25 +141,22 @@ export function HeroSection({ onOpenGrowthChart }) {
                 alt="Pip the Skull Baby floating on a cloud"
                 className="w-full h-full object-contain filter drop-shadow-xl z-10 pointer-events-none"
                 onError={(e) => {
-                  // Fallback to high-res portrait if cloud cutout is loading
                   e.currentTarget.src = 'assets/pip_portrait.png';
                 }}
               />
 
-              {/* Dynamic Eye Pinprick Tracking Overlay (Anchored to Pip's eye coordinates) */}
+              {/* Dynamic Eye Pinprick Tracking Overlay */}
               <div 
                 className="absolute z-20 pointer-events-none"
                 style={{ top: '44%', left: '48%', transform: 'translate(-50%, -50%)' }}
               >
                 <div className="flex gap-8 sm:gap-9">
-                  {/* Left Eye Pupil */}
                   <div className="w-4 h-4 rounded-full flex items-center justify-center">
                     <div
                       style={{ transform: `translate(${pupilPos.x}px, ${pupilPos.y}px)` }}
                       className="w-2.5 h-2.5 rounded-full bg-amberStar shadow-[0_0_8px_#f59e0b] animate-pulse-glow"
                     />
                   </div>
-                  {/* Right Eye Pupil */}
                   <div className="w-4 h-4 rounded-full flex items-center justify-center">
                     <div
                       style={{ transform: `translate(${pupilPos.x}px, ${pupilPos.y}px)` }}
@@ -167,21 +202,37 @@ export function HeroSection({ onOpenGrowthChart }) {
           )}
 
           {/* Interactive Hero Action Buttons */}
-          <div className="flex flex-wrap items-center justify-center gap-3 mt-7">
+          <div className="flex flex-wrap items-center justify-center gap-2.5 sm:gap-3 mt-7">
             <button
               onClick={handleYawnClick}
-              className="px-4 py-2 rounded-xl bg-berry text-white font-bold text-sm shadow-retro hover:bg-berry-hover transition active:translate-x-0.5 active:translate-y-0.5 flex items-center gap-2"
+              className="px-3.5 sm:px-4 py-2 rounded-xl bg-berry text-white font-bold text-xs sm:text-sm shadow-retro hover:bg-berry-hover transition active:translate-x-0.5 active:translate-y-0.5 flex items-center gap-1.5"
             >
-              <Volume2 size={16} />
+              <Volume2 size={15} />
               {yawnActive ? 'Yaaawning... (*ᴗ͈ˬᴗ͈)💤' : 'Hear Pip Yawn'}
             </button>
 
             <button
-              onClick={onOpenGrowthChart}
-              className="px-4 py-2 rounded-xl bg-white dark:bg-night-card border-2 border-bark dark:border-stone-700 text-bark dark:text-cream-100 font-bold text-sm shadow-retro hover:bg-cream-200 dark:hover:bg-night-50 transition active:translate-x-0.5 active:translate-y-0.5 flex items-center gap-2"
+              onClick={onOpenChat}
+              className="px-3.5 sm:px-4 py-2 rounded-xl bg-white dark:bg-night-card border-2 border-berry dark:border-amberStar text-berry dark:text-amberStar font-bold text-xs sm:text-sm shadow-retro hover:bg-cream-200 dark:hover:bg-night-50 transition active:translate-x-0.5 active:translate-y-0.5 flex items-center gap-1.5"
             >
-              <Award size={16} className="text-amberStar" />
-              Nursery Growth Chart
+              <MessageCircle size={15} />
+              Chat with Pip
+            </button>
+
+            <button
+              onClick={onOpenGame}
+              className="px-3.5 sm:px-4 py-2 rounded-xl bg-amberStar/20 dark:bg-amberStar/15 border-2 border-amberStar text-stone-900 dark:text-amberStar font-bold text-xs sm:text-sm shadow-retro hover:bg-amberStar/30 transition active:translate-x-0.5 active:translate-y-0.5 flex items-center gap-1.5"
+            >
+              <Gamepad2 size={15} />
+              Play Catch Dreams
+            </button>
+
+            <button
+              onClick={onOpenGrowthChart}
+              className="px-3.5 sm:px-4 py-2 rounded-xl bg-white dark:bg-night-card border-2 border-bark dark:border-stone-700 text-bark dark:text-cream-100 font-bold text-xs sm:text-sm shadow-retro hover:bg-cream-200 dark:hover:bg-night-50 transition active:translate-x-0.5 active:translate-y-0.5 flex items-center gap-1.5"
+            >
+              <Award size={15} className="text-amberStar" />
+              Growth Chart
             </button>
           </div>
 

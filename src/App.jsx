@@ -5,7 +5,10 @@ import { ProjectsSection } from './components/ProjectsSection';
 import { StorySection } from './components/StorySection';
 import { GuestbookSection } from './components/GuestbookSection';
 import { GrowthChartModal } from './components/GrowthChartModal';
+import { PipChatModal } from './components/PipChatModal';
+import { DreamCatcherGame } from './components/DreamCatcherGame';
 import { SparkleTrail } from './components/SparkleTrail';
+import { FlashlightCursor } from './components/FlashlightCursor';
 import { ChaosModeOverlay } from './components/ChaosModeOverlay';
 import { Footer } from './components/Footer';
 import { soundEngine } from './utils/audio';
@@ -15,7 +18,7 @@ export default function App() {
   const [isDark, setIsDark] = useState(() => {
     if (typeof window !== 'undefined') {
       const saved = localStorage.getItem('pip_bedtime_theme');
-      return saved ? saved === 'dark' : false; // Default to warm cream palette (#fff8f1)
+      return saved ? saved === 'dark' : false;
     }
     return false;
   });
@@ -26,8 +29,13 @@ export default function App() {
   // Retro Chaos Mode (+5 bonus points)
   const [isChaos, setIsChaos] = useState(false);
 
-  // Growth Chart Modal
+  // Tier 2: Flashlight Cursor
+  const [isFlashlight, setIsFlashlight] = useState(false);
+
+  // Modals & Mini-Games
   const [isGrowthChartOpen, setIsGrowthChartOpen] = useState(false);
+  const [isChatOpen, setIsChatOpen] = useState(false);
+  const [isGameOpen, setIsGameOpen] = useState(false);
 
   // Sync dark class on document element
   useEffect(() => {
@@ -54,11 +62,18 @@ export default function App() {
     setIsChaos((prev) => !prev);
   };
 
+  const toggleFlashlight = () => {
+    setIsFlashlight((prev) => !prev);
+  };
+
   return (
     <div className={`min-h-screen ${isDark ? 'dotted-pattern-dark bg-night text-cream-100' : 'dotted-pattern-light bg-cream-100 text-bark'} transition-colors duration-500 font-bubbly selection:bg-berry selection:text-white relative`}>
       
       {/* Side Quest: Sparkle Cursor Trail (+2 pts) */}
       <SparkleTrail enabled={true} />
+
+      {/* Tier 2: Flashlight / Torch Cursor Effect */}
+      <FlashlightCursor enabled={isFlashlight || isDark} />
 
       {/* Side Quest: Retro Chaos Mode Overlay (+5 pts) */}
       <ChaosModeOverlay isChaos={isChaos} />
@@ -71,14 +86,22 @@ export default function App() {
         onToggleMute={toggleMute}
         isChaos={isChaos}
         onToggleChaos={toggleChaos}
+        isFlashlight={isFlashlight}
+        onToggleFlashlight={toggleFlashlight}
+        onOpenChat={() => setIsChatOpen(true)}
+        onOpenGame={() => setIsGameOpen(true)}
       />
 
       {/* Main Portfolio Sections */}
       <main className="relative">
         {/* Core Question 1: Who Pip Is */}
-        <HeroSection onOpenGrowthChart={() => setIsGrowthChartOpen(true)} />
+        <HeroSection
+          onOpenGrowthChart={() => setIsGrowthChartOpen(true)}
+          onOpenChat={() => setIsChatOpen(true)}
+          onOpenGame={() => setIsGameOpen(true)}
+        />
 
-        {/* Core Question 2: What Pip Does (3+ Inventions) */}
+        {/* Core Question 2: What Pip Does (4 Inventions) */}
         <ProjectsSection />
 
         {/* Core Question 3: What Pip's Story Is (Bedtime Storybook) */}
@@ -92,6 +115,18 @@ export default function App() {
       <GrowthChartModal
         isOpen={isGrowthChartOpen}
         onClose={() => setIsGrowthChartOpen(false)}
+      />
+
+      {/* Tier 3: Pip Character Chat Dialog */}
+      <PipChatModal
+        isOpen={isChatOpen}
+        onClose={() => setIsChatOpen(false)}
+      />
+
+      {/* Tier 2: Catch Falling Dreams Mini-Game */}
+      <DreamCatcherGame
+        isOpen={isGameOpen}
+        onClose={() => setIsGameOpen(false)}
       />
 
       {/* Vintage Early-Web Footer */}

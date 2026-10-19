@@ -1,9 +1,20 @@
 import React, { useState } from 'react';
-import { Volume2, VolumeX, Moon, Sun, Sparkles, Menu, X, BookOpen, Music, MapPin, Heart } from 'lucide-react';
+import { Volume2, VolumeX, Moon, Sun, Sparkles, Menu, X, Flashlight, MessageCircle, Gamepad2 } from 'lucide-react';
 import { HitCounter } from './HitCounter';
 import { soundEngine } from '../utils/audio';
 
-export function Navigation({ isDark, onToggleDark, isMuted, onToggleMute, isChaos, onToggleChaos }) {
+export function Navigation({
+  isDark,
+  onToggleDark,
+  isMuted,
+  onToggleMute,
+  isChaos,
+  onToggleChaos,
+  isFlashlight,
+  onToggleFlashlight,
+  onOpenChat,
+  onOpenGame,
+}) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const handleNavClick = (anchor) => {
@@ -55,7 +66,7 @@ export function Navigation({ isDark, onToggleDark, isMuted, onToggleMute, isChao
             onClick={() => handleNavClick('#projects')}
             className="px-3 py-1.5 rounded-lg hover:bg-cream-200 dark:hover:bg-night-50 hover:text-berry dark:hover:text-amberStar transition"
           >
-            Inventions (3+)
+            Inventions (4)
           </button>
           <button
             onClick={() => handleNavClick('#story')}
@@ -72,10 +83,27 @@ export function Navigation({ isDark, onToggleDark, isMuted, onToggleMute, isChao
         </nav>
 
         {/* Interactive Controls & Odometer */}
-        <div className="flex items-center gap-2 sm:gap-3">
+        <div className="flex items-center gap-1.5 sm:gap-2.5">
           <div className="hidden lg:block">
             <HitCounter />
           </div>
+
+          {/* Flashlight Torch Toggle (Tier 2 Feature) */}
+          <button
+            onClick={() => {
+              soundEngine.playClick();
+              onToggleFlashlight();
+            }}
+            aria-label="Toggle Nightlight Flashlight Cursor"
+            title={isFlashlight ? 'Disable Flashlight Torch' : 'Enable Flashlight Torch Cursor (Tier 2)'}
+            className={`p-2 rounded-full border transition shadow-sm ${
+              isFlashlight
+                ? 'bg-amberStar text-stone-900 border-amberStar shadow-lantern-glow'
+                : 'bg-white/80 dark:bg-night-card text-stone-500 dark:text-stone-400 border-cream-300 dark:border-stone-700 hover:text-amberStar'
+            }`}
+          >
+            <Flashlight size={16} />
+          </button>
 
           {/* Retro Chaos Mode Pill (+5 pts) */}
           <button
@@ -172,6 +200,24 @@ export function Navigation({ isDark, onToggleDark, isMuted, onToggleMute, isChao
               className="p-2 text-left rounded-lg bg-white dark:bg-night text-bark dark:text-cream-100 border border-cream-300 dark:border-night-50"
             >
               💌 Dream Wishes
+            </button>
+            <button
+              onClick={() => {
+                setIsMobileMenuOpen(false);
+                onOpenChat();
+              }}
+              className="p-2 text-left rounded-lg bg-berry/10 text-berry dark:text-amberStar border border-berry/20 font-bold"
+            >
+              💬 Chat with Pip
+            </button>
+            <button
+              onClick={() => {
+                setIsMobileMenuOpen(false);
+                onOpenGame();
+              }}
+              className="p-2 text-left rounded-lg bg-amberStar/20 text-stone-900 dark:text-amberStar border border-amberStar/40 font-bold"
+            >
+              🎮 Catch Dreams
             </button>
           </div>
         </div>
