@@ -1,91 +1,93 @@
-# 🌙 Pip's Midnight Nursery — Baby's First Portfolio
+# 🌙 Pip's Midnight Nursery
 
-> **Official Entry for haX.baby's 48-Hour Online Hackathon (17–19 October 2026)**  
-> **Challenge:** *Baby's First Portfolio: Meet the Baby*  
-> **Track 1:** *Pip, The Skull Baby ("Same Baby, 1,000 Websites")*  
-> **Bonus Side Quests:** **+13 / +13 Points Achieved** (All 5 Completed!)
+> “Good things start small.”
 
----
+**Pip's Midnight Nursery** is a whimsical character portfolio built for **haX.baby: Baby's First Website Hackathon 2026**. Meet Pip, a tiny Junior Dream Engineer who creates magical dreams, cozy nightlights, and gentle lullabies to help neighborhood creatures sleep.
 
-## 🧸 Meet Pip (Junior Dream Engineer)
-Pip is a sleepy, gentle baby with a smooth round skull face, huge soft eye sockets with glowing warm amber pinpricks, a tiny crooked smile, and a bedtime nightcap with stars and a pink bow. Pip works at the **Midnight Nursery (Ward #7)**, designing the dreams, lullabies, nightlights, and bedtime stories that guide little creatures safely to sleep.
+The project celebrates the playful spirit of the early web through nostalgic visuals, interactive storytelling, charming animations, and a warm, dreamy aesthetic.
 
----
+## ✨ Features
 
-## 🌟 The 3 Core Hackathon Questions Answered
+- 🌙 **Character Introduction** — Meet Pip and discover their personality, appearance, and dream-engineering role.
+- 🎨 **Project Showcase** — Explore Pip's creative projects, including lullabies, nightlights, and bedtime stories.
+- 📖 **Interactive Origin Story** — Follow Pip's journey through a collection of magical story scenes.
+- 🖱️ **Interactive Experience** — Discover playful interactions and surprises throughout the website.
+- ☀️ **Day/Night Mode** — Switch between different moods and visual themes.
+- ⭐ **Hidden Easter Egg** — Find a little surprise tucked away in the nursery.
+- 📱 **Responsive Design** — Enjoy the experience on desktop, tablet, and mobile.
+- 🔊 **Sound Controls** — Toggle audio on or off, where supported.
 
-### 1. What They Are
-* **Identity:** Baby Skeleton / Dream Weaver
-* **Appearance:** Smooth skull face, glowing amber pupil pinpricks that follow the visitor's cursor, starry nightcap, rosy sleep cheeks, floating marshmallow cloud.
-* **Personality:** Sleepy, cozy, tenderhearted, inventive, fond of warm milk and chamomile.
-* **Voice:** Soft sleepy murmurs, yawning in pentatonic frequencies.
+## 🛠️ Tech Stack
 
-### 2. What They Do (4 Interactive Showcase Projects)
-1. **The Lullaby Lab (`Lullaby_Box.synth`):**
-   * Real-time Web Audio API pentatonic music box synthesizer.
-   * Playable chime bells (`Do`, `Re`, `Mi`, `Sol`, `La`, `Do`) with an automatic Brahms lullaby sequencer and bouncing visualizer bars.
-2. **Dream Nightlight Lanterns (`Nightlight_Lantern.fx`):**
-   * Hand-carved crescent porcelain lamp gallery using official studio renders.
-   * Real-time lumen dimmer slider (10% to 100%) and 3 sleep filter modes (*Amber Hearth*, *Lavender Mist*, *Starry Mint*).
-3. **Rooftop Sky Routes (`Sky_Route_Map.svg`):**
-   * Interactive rooftop flight map where visitors click sleepy creatures (*Barnaby the Owl*, *Bear Cub Bruno*, *Kitten Mittens*, *Little Mice*) to dispatch dreams.
-4. **Rattle & Block Atelier (`Wooden_Toys.toy`):**
-   * Interactive stackable baby blocks with tactile wooden click acoustics and jiggle animations.
+- React
+- Vite
+- TypeScript / JavaScript *(depending on the implementation)*
+- CSS
+- Web Audio API *(if implemented)*
+- Lucide React / Motion *(if used in the project)*
 
-### 3. What Their Story Is (Bedtime Chronicle)
-Told through 4 bite-sized storybook scenes (all under 100 words per scene):
-* **Scene 01 / Origin:** *The Velvet Music Box* — How Pip was discovered inside an antique rosewood box.
-* **Scene 02 / Craft:** *Harvesting Starlight at Dusk* — Polishing fallen starbeams into bedside lamps.
-* **Scene 03 / Adventure:** *The First Rooftop Flight* — Soothing a scared bear cub in a winter storm.
-* **Scene 04 / Slumber:** *Tucking In the Dream Weaver* — Pip curling up on a cloud as dawn arrives.
+## 🚀 Getting Started
 
----
+### Prerequisites
 
-## 🏆 Scoring Rubric & Bonus Side Quests (+13 / +13 Pts)
+- Node.js
+- npm
+- Git
 
-| Criterion | Implementation Highlights |
-| :--- | :--- |
-| **Functionality & Polish (35%)** | Zero console errors, silky 60fps animations, accessible audio, persistent state. |
-| **Early-Web Soul (30%)** | Dotted paper textures, retro window title bars, 88x31 badges, guestbook wall. |
-| **Creativity & Surprises (20%)** | Secret nightcap Easter egg with star confetti fanfare, eye tracking, interactive toys. |
-| **Clean Craft (15%)** | 100% mobile-responsive, zero external MP3 dependencies, fast Vite bundle. |
+### Installation
 
-### Completed Side Quests (+13 Bonus Points):
-* **✨ Live Guestbook Wall (+2 pts):** Persistent visitor corkboard with local storage memory and bedtime emoji stickers.
-* **⭐ Sparkle Cursor Trail (+2 pts):** Celestial particles trailing cursor and mobile touch taps.
-* **⏱️ Hit Counter Odometer (+1 pt):** Vintage mechanical odometer ticking `"Dreams Delivered: 001,483"`.
-* **🔔 Click Sounds + Mute Toggle (+3 pts):** Organic Web Audio chimes with a prominent, accessible mute switch.
-* **🕹️ Responsive Chaos Mode (+5 pts):** Nostalgic 90s marquee ticker and retro stamp stickers.
+1. Clone the repository:
 
----
+   ```bash
+   git clone https://github.com/bhaktas484-web/pip-dream.git
+   ```
 
-## 🚀 Quick Start / Local Setup
+2. Open the project directory:
+
+   ```bash
+   cd pip-dream
+   ```
+
+3. Install dependencies:
+
+   ```bash
+   npm install
+   ```
+
+4. Start the development server:
+
+   ```bash
+   npm run dev
+   ```
+
+5. Open the local URL shown in your terminal.
+
+### Build for Production
 
 ```bash
-# 1. Clone repository
-git clone <your-repo-url>
-cd pip-dream-portfolio
-
-# 2. Install dependencies
-npm install
-
-# 3. Start local development server
-npm run dev
-
-# 4. Build optimized production bundle
 npm run build
+npm run preview
 ```
 
----
+## 🎨 Design Philosophy
 
-## 🎨 Official Palette
-* **Warm Cream:** `#fff8f1`
-* **Rich Berry Accent:** `#a34063`
-* **Espresso Bark:** `#5c4033`
-* **Starlight Amber:** `#f7c948`
-* **Midnight Nursery Dark:** `#100c1e`
-* **Retro Mint:** `#00ff66`
+Pip's Midnight Nursery combines a warm cream palette, playful typography, dreamy illustrations, and nostalgic early-web details to create a cozy digital world.
 
----
+The experience focuses on character personality, accessible interactions, responsive layouts, and small discoveries that reward curious visitors.
 
-*Made with curiosity for haX.baby · "Good things start small."*
+## 🏆 Hackathon
+
+**Event:** haX.baby — Baby's First Website Hackathon 2026  
+**Track:** Track 1 — Pip the Skull Baby  
+**Project:** Pip's Midnight Nursery
+
+## 🙏 Credits
+
+- Character and official assets: [haX.baby](https://hax.baby/)
+- Hackathon brief: [Baby's First Website](https://hax.baby/first-website)
+- Problem statement: [Official Challenge](https://hax.baby/baby-problem)
+- Fonts, libraries, audio, and other third-party assets: Credit the creators and sources actually used in this project.
+
+## 📄 License
+
+This repository contains original project code and may include third-party assets subject to their own licenses. Check the applicable licenses before reusing or redistributing those assets.
